@@ -11,24 +11,29 @@ import XCTest
 
 class RSATests: XCTestCase {
     
+    let text = "RSATests 2016"
     var keyPair: (publicKey: SecKey, privateKey: SecKey)!
     
     override func setUp() {
         super.setUp()
 
-        keyPair = try! RSA.generateKeyPair(size: 2048)
+        keyPair = try! RSA.generateKeyPair(withSize: 2048)
     }
     
-    func testPublicKeyNotNil() {
-        XCTAssertNotNil(keyPair.publicKey)
+    func testPublicKeyNotNill() {
+        XCTAssertTrue("\(keyPair.publicKey)"
+            .components(separatedBy: ", ")
+            .contains {$0.hasPrefix("key type: RSAPublicKey")})
     }
     
-    func testPrivateKeyNotNil() {
-        XCTAssertNotNil(keyPair.privateKey)
+    func testPrivateKeyNotNill() {
+        XCTAssertTrue("\(keyPair.privateKey)"
+            .components(separatedBy: ", ")
+            .contains {$0.hasPrefix("key type: RSAPrivateKey")})
     }
     
     func testPublicKeySize512() {
-        keyPair = try! RSA.generateKeyPair(size: 512)
+        keyPair = try! RSA.generateKeyPair(withSize: 512)
         
         XCTAssertTrue("\(keyPair.publicKey)"
             .components(separatedBy: ", ")
@@ -36,7 +41,7 @@ class RSATests: XCTestCase {
     }
     
     func testPublicKeySize768() {
-        keyPair = try! RSA.generateKeyPair(size: 768)
+        keyPair = try! RSA.generateKeyPair(withSize: 768)
         
         XCTAssertTrue("\(keyPair.publicKey)"
             .components(separatedBy: ", ")
@@ -44,7 +49,7 @@ class RSATests: XCTestCase {
     }
     
     func testPublicKeySize1024() {
-        keyPair = try! RSA.generateKeyPair(size: 1024)
+        keyPair = try! RSA.generateKeyPair(withSize: 1024)
         
         XCTAssertTrue("\(keyPair.publicKey)"
             .components(separatedBy: ", ")
@@ -52,10 +57,30 @@ class RSATests: XCTestCase {
     }
     
     func testPublicKeySize2048() {
-        keyPair = try! RSA.generateKeyPair(size: 2048)
+        keyPair = try! RSA.generateKeyPair(withSize: 2048)
         
         XCTAssertTrue("\(keyPair.publicKey)"
             .components(separatedBy: ", ")
             .contains {$0.hasPrefix("block size: 2048 bits")})
+    }
+    
+    func testEncryptedDataNotEmpty() {
+        let encryptedData = try! RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+        
+        XCTAssertTrue(!encryptedData.isEmpty)
+    }
+    
+    func testDecryptedDataNotEmpty() {
+        let encryptedData = try! RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+        let decryptedData = try! RSA.decrypt(data: encryptedData, using: keyPair.privateKey)
+        
+        XCTAssertTrue(!decryptedData.isEmpty)
+    }
+    
+    func testEncryptDecrypt() {
+        let encryptedData = try! RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+        let decryptedData = try! RSA.decrypt(data: encryptedData, using: keyPair.privateKey)
+        
+        XCTAssertEqual(String(data: decryptedData, encoding: .utf8), text)
     }
 }
