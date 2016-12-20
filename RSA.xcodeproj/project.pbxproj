@@ -12,6 +12,8 @@
 		8323B3241E008D2000FE3953 /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8323B3231E008D2000FE3953 /* RSA.swift */; };
 		8323B32C1E008E6600FE3953 /* SecKey+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8323B32B1E008E6600FE3953 /* SecKey+Extension.swift */; };
 		8323B32E1E008E9700FE3953 /* RSAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8323B32D1E008E9700FE3953 /* RSAError.swift */; };
+		838A74041E087E6E009DC3DE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838A74031E087E6E009DC3DE /* AppDelegate.swift */; };
+		838A74091E087E6E009DC3DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 838A74071E087E6E009DC3DE /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -21,6 +23,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8323B3081E008C0800FE3953;
 			remoteInfo = RSA;
+		};
+		838A74131E087ECB009DC3DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8323B3001E008C0800FE3953 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 838A74001E087E6E009DC3DE;
+			remoteInfo = RSATestsHostApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -33,6 +42,10 @@
 		8323B3231E008D2000FE3953 /* RSA.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RSA.swift; sourceTree = "<group>"; };
 		8323B32B1E008E6600FE3953 /* SecKey+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SecKey+Extension.swift"; sourceTree = "<group>"; };
 		8323B32D1E008E9700FE3953 /* RSAError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RSAError.swift; sourceTree = "<group>"; };
+		838A74011E087E6E009DC3DE /* RSATestsHostApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSATestsHostApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		838A74031E087E6E009DC3DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		838A74081E087E6E009DC3DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		838A740F1E087E6E009DC3DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +61,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8323B3131E008C0800FE3953 /* RSA.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		838A73FE1E087E6E009DC3DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +88,7 @@
 			children = (
 				8323B3091E008C0800FE3953 /* RSA.framework */,
 				8323B3121E008C0800FE3953 /* RSATests.xctest */,
+				838A74011E087E6E009DC3DE /* RSATestsHostApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,8 +109,19 @@
 			children = (
 				8323B3191E008C0800FE3953 /* Info.plist */,
 				8323B3171E008C0800FE3953 /* RSATests.swift */,
+				838A74021E087E6E009DC3DE /* RSATestsHostApp */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		838A74021E087E6E009DC3DE /* RSATestsHostApp */ = {
+			isa = PBXGroup;
+			children = (
+				838A740F1E087E6E009DC3DE /* Info.plist */,
+				838A74031E087E6E009DC3DE /* AppDelegate.swift */,
+				838A74071E087E6E009DC3DE /* Main.storyboard */,
+			);
+			path = RSATestsHostApp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,11 +167,29 @@
 			);
 			dependencies = (
 				8323B3151E008C0800FE3953 /* PBXTargetDependency */,
+				838A74141E087ECB009DC3DE /* PBXTargetDependency */,
 			);
 			name = RSATests;
 			productName = RSATests;
 			productReference = 8323B3121E008C0800FE3953 /* RSATests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		838A74001E087E6E009DC3DE /* RSATestsHostApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 838A74121E087E6E009DC3DE /* Build configuration list for PBXNativeTarget "RSATestsHostApp" */;
+			buildPhases = (
+				838A73FD1E087E6E009DC3DE /* Sources */,
+				838A73FE1E087E6E009DC3DE /* Frameworks */,
+				838A73FF1E087E6E009DC3DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RSATestsHostApp;
+			productName = RSATestsHostApp;
+			productReference = 838A74011E087E6E009DC3DE /* RSATestsHostApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -147,7 +197,7 @@
 		8323B3001E008C0800FE3953 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0810;
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Valery Bashkatov";
 				TargetAttributes = {
@@ -159,6 +209,11 @@
 					8323B3111E008C0800FE3953 = {
 						CreatedOnToolsVersion = 8.1;
 						ProvisioningStyle = Automatic;
+						TestTargetID = 838A74001E087E6E009DC3DE;
+					};
+					838A74001E087E6E009DC3DE = {
+						CreatedOnToolsVersion = 8.2;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -168,6 +223,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 8323B2FF1E008C0800FE3953;
 			productRefGroup = 8323B30A1E008C0800FE3953 /* Products */;
@@ -176,6 +232,7 @@
 			targets = (
 				8323B3081E008C0800FE3953 /* RSA */,
 				8323B3111E008C0800FE3953 /* RSATests */,
+				838A74001E087E6E009DC3DE /* RSATestsHostApp */,
 			);
 		};
 /* End PBXProject section */
@@ -192,6 +249,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		838A73FF1E087E6E009DC3DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				838A74091E087E6E009DC3DE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +281,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		838A73FD1E087E6E009DC3DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				838A74041E087E6E009DC3DE /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -224,7 +297,23 @@
 			target = 8323B3081E008C0800FE3953 /* RSA */;
 			targetProxy = 8323B3141E008C0800FE3953 /* PBXContainerItemProxy */;
 		};
+		838A74141E087ECB009DC3DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 838A74001E087E6E009DC3DE /* RSATestsHostApp */;
+			targetProxy = 838A74131E087ECB009DC3DE /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		838A74071E087E6E009DC3DE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				838A74081E087E6E009DC3DE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8323B31B1E008C0800FE3953 /* Debug */ = {
@@ -376,6 +465,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSATests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSATestsHostApp.app/RSATestsHostApp";
 			};
 			name = Debug;
 		};
@@ -386,6 +476,31 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSATests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RSATestsHostApp.app/RSATestsHostApp";
+			};
+			name = Release;
+		};
+		838A74101E087E6E009DC3DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/RSATestsHostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSATestsHostApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		838A74111E087E6E009DC3DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = Tests/RSATestsHostApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSATestsHostApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -417,6 +532,15 @@
 			buildConfigurations = (
 				8323B3211E008C0800FE3953 /* Debug */,
 				8323B3221E008C0800FE3953 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		838A74121E087E6E009DC3DE /* Build configuration list for PBXNativeTarget "RSATestsHostApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				838A74101E087E6E009DC3DE /* Debug */,
+				838A74111E087E6E009DC3DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

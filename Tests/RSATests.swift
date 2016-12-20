@@ -83,4 +83,12 @@ class RSATests: XCTestCase {
         
         XCTAssertEqual(String(data: decryptedData, encoding: .utf8), text)
     }
+    
+    func testPublicKeyDataNotEmpty() {
+        XCTAssertTrue(!keyPair.publicKey.data.isEmpty)
+    }
+    
+    func testPrivateKeyDataNotEmpty() {
+        XCTAssertTrue(!keyPair.privateKey.data.isEmpty)
+    }
 }

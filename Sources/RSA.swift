@@ -44,7 +44,7 @@ open class RSA {
         guard status == errSecSuccess else {
             throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
         }
-        
+
         return (publicKey: publicKey!, privateKey: privateKey!)
     }
     

@@ -22,9 +22,6 @@ public enum RSAError: Int, Error, CustomStringConvertible {
     /// Failed to allocate memory.
     case memoryAllocationFailed = -108
     
-    /// Unable to decode the provided data.
-    case dataDecodeError = -26275
-    
     /// No keychain is available.
     case keychainUnavailable = -25291
     
@@ -40,6 +37,12 @@ public enum RSAError: Int, Error, CustomStringConvertible {
     /// Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program.
     case interactionNotAllowed = -25308
     
+    /// Unable to decode the provided data.
+    case dataDecodeError = -26275
+    
+    /// Internal error when a required entitlement isn't present. Keychain entitlement required.
+    case missingEntitlement = -34018
+    
     /// Unknown error.
     case unknown = 0
     
@@ -47,18 +50,18 @@ public enum RSAError: Int, Error, CustomStringConvertible {
     public var description: String {
         let text: String
         
-        switch self.rawValue {
-        case 0: text = "Unknown error"
-        case -4: text = "The function or operation is not implemented"
-        case -50: text = "One or more parameters passed to a function were not valid"
-        case -108: text = "Failed to allocate memory"
-        case -26275: text = "Unable to decode the provided data"
-        case -25291: text = "No keychain is available"
-        case -25293: text = "Authorization or authentication failed"
-        case -25299: text = "An item with the same primary key attributes already exists"
-        case -25300: text = "The item cannot be found"
-        case -25308: text = "Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program."
-        default: text = "Unknown error"
+        switch self {
+        case .unimplementedFunction: text = "The function or operation is not implemented"
+        case .invalidParameter: text = "One or more parameters passed to a function were not valid"
+        case .memoryAllocationFailed: text = "Failed to allocate memory"
+        case .keychainUnavailable: text = "No keychain is available"
+        case .authFailed: text = "Authorization or authentication failed"
+        case .duplicateKey: text = "An item with the same primary key attributes already exists"
+        case .keyNotFound: text = "The item cannot be found"
+        case .interactionNotAllowed: text = "Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program"
+        case .dataDecodeError: text = "Unable to decode the provided data"
+        case .missingEntitlement: text = "Internal error when a required entitlement isn't present. Keychain entitlement required"
+        case .unknown: text = "Unknown error"
         }
         
         return "RSAError (\(self.rawValue)): \(text)."

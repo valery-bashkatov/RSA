@@ -13,45 +13,75 @@ public extension SecKey {
     
     // MARK: - Properties
     
-    /// The key in the form of data.
+    /// The data of key.
     public var data: Data {
-        let attributes: [String: AnyObject] = [
+        
+        let query = [
             (kSecClass as String): kSecClassKey,
             (kSecAttrApplicationTag as String): UUID().uuidString as AnyObject,
             (kSecValueRef as String): self,
             (kSecReturnData as String): true as AnyObject
-        ]
+        ] as CFDictionary
         
         var data: AnyObject?
         
-        SecItemDelete(attributes as CFDictionary)
-        SecItemAdd(attributes as CFDictionary, &data)
-        SecItemDelete(attributes as CFDictionary)
+        var deletingStatus = SecItemDelete(query)
+        
+        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
+        
+        let addingStatus = SecItemAdd(query, &data)
+        
+        guard addingStatus == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
+        
+        deletingStatus = SecItemDelete(query)
+        
+        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
         
         return data as! Data
     }
     
     /**
-     A dictionary containing key's attributes.
+     The key's attributes.
      
-     For a list of available values, see
-     [Security Framework Reference](https://developer.apple.com/library/ios/documentation/Security/Reference/keychainservices/index.html#//apple_ref/doc/c_ref/kSecClassKey)
+     List of available attributes:
+     [Security Framework Reference](https://developer.apple.com/reference/security/1658642-keychain_services/1662474-attribute_item_keys)
      */
     public var attributes: [String: AnyObject] {
-        let attributes: [String: AnyObject] = [
+        
+        let query = [
             (kSecClass as String): kSecClassKey,
             (kSecAttrApplicationTag as String): UUID().uuidString as AnyObject,
             (kSecValueRef as String): self,
             (kSecReturnAttributes as String): true as AnyObject
-        ]
+        ] as CFDictionary
         
-        var selfAttributes: AnyObject?
+        var attributes: AnyObject?
         
-        SecItemDelete(attributes as CFDictionary)
-        SecItemAdd(attributes as CFDictionary, &selfAttributes)
-        SecItemDelete(attributes as CFDictionary)
+        var deletingStatus = SecItemDelete(query)
         
-        return selfAttributes as! [String: AnyObject]
+        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
+        
+        let addingStatus = SecItemAdd(query, &attributes)
+        
+        guard addingStatus == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
+        
+        deletingStatus = SecItemDelete(query)
+        
+        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        }
+        
+        return attributes as! [String: AnyObject]
     }
     
     /*
