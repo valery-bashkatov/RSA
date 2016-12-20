@@ -91,4 +91,36 @@ class RSATests: XCTestCase {
     func testPrivateKeyDataNotEmpty() {
         XCTAssertTrue(!keyPair.privateKey.data.isEmpty)
     }
+    
+    func testPublicKeyAttributesNotEmpty() {
+        let attributes = keyPair.publicKey.attributes
+        
+        let keyType = attributes[kSecAttrType as String] as? Int
+        let keySize = attributes[kSecAttrKeySizeInBits as String] as? Int
+        let keyClass = attributes[kSecAttrKeyClass as String] as? Int
+        
+        XCTAssertNotNil(keyType)
+        XCTAssertNotNil(keySize)
+        XCTAssertNotNil(keyClass)
+        
+        XCTAssertEqual(keyType, Int(kSecAttrKeyTypeRSA as String))
+        XCTAssertEqual(keySize, 2048)
+        XCTAssertEqual(keyClass, Int(kSecAttrKeyClassPublic as String))
+    }
+    
+    func testPrivateKeyAttributesNotEmpty() {
+        let attributes = keyPair.privateKey.attributes
+        
+        let keyType = attributes[kSecAttrType as String] as? Int
+        let keySize = attributes[kSecAttrKeySizeInBits as String] as? Int
+        let keyClass = attributes[kSecAttrKeyClass as String] as? Int
+        
+        XCTAssertNotNil(keyType)
+        XCTAssertNotNil(keySize)
+        XCTAssertNotNil(keyClass)
+        
+        XCTAssertEqual(keyType, Int(kSecAttrKeyTypeRSA as String))
+        XCTAssertEqual(keySize, 2048)
+        XCTAssertEqual(keyClass, Int(kSecAttrKeyClassPrivate as String))
+    }
 }

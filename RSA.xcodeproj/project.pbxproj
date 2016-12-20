@@ -46,6 +46,7 @@
 		838A74031E087E6E009DC3DE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		838A74081E087E6E009DC3DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		838A740F1E087E6E009DC3DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83B46F2B1E093405003DB590 /* RSATestsHostApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSATestsHostApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +121,7 @@
 				838A740F1E087E6E009DC3DE /* Info.plist */,
 				838A74031E087E6E009DC3DE /* AppDelegate.swift */,
 				838A74071E087E6E009DC3DE /* Main.storyboard */,
+				83B46F2B1E093405003DB590 /* RSATestsHostApp.entitlements */,
 			);
 			path = RSATestsHostApp;
 			sourceTree = "<group>";
@@ -213,7 +215,13 @@
 					};
 					838A74001E087E6E009DC3DE = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = R72PP6W753;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -485,6 +493,8 @@
 		838A74101E087E6E009DC3DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Tests/RSATestsHostApp/RSATestsHostApp.entitlements;
+				DEVELOPMENT_TEAM = R72PP6W753;
 				INFOPLIST_FILE = Tests/RSATestsHostApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -497,6 +507,8 @@
 		838A74111E087E6E009DC3DE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Tests/RSATestsHostApp/RSATestsHostApp.entitlements;
+				DEVELOPMENT_TEAM = R72PP6W753;
 				INFOPLIST_FILE = Tests/RSATestsHostApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
