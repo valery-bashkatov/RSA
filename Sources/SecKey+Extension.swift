@@ -13,179 +13,193 @@ public extension SecKey {
     
     // MARK: - Properties
     
+    /**
+     The key's attributes.
+     
+     List of available attributes:
+     [Security Framework Reference. Attribute Item Keys](https://developer.apple.com/reference/security/1658642-keychain_services/1662474-attribute_item_keys)
+     */
+    public var attributes: [String: AnyObject] {
+        
+        let query = [
+            (kSecClass as String): kSecClassKey,
+            (kSecAttrApplicationTag as String): UUID().uuidString,
+            (kSecValueRef as String): self,
+            (kSecReturnAttributes as String): true
+            ] as CFDictionary
+        
+        var attributes: AnyObject?
+        var status: OSStatus
+        
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemAdd(query, &attributes)
+        guard status == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        return attributes as! [String: AnyObject]
+    }
+    
     /// The data of key.
     public var data: Data {
         
         let query = [
             (kSecClass as String): kSecClassKey,
-            (kSecAttrApplicationTag as String): UUID().uuidString as AnyObject,
+            (kSecAttrApplicationTag as String): UUID().uuidString,
             (kSecValueRef as String): self,
-            (kSecReturnData as String): true as AnyObject
-        ] as CFDictionary
+            (kSecReturnData as String): true
+            ] as CFDictionary
         
         var data: AnyObject?
+        var status: OSStatus
         
-        var deletingStatus = SecItemDelete(query)
-        
-        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
         }
         
-        let addingStatus = SecItemAdd(query, &data)
-        
-        guard addingStatus == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        status = SecItemAdd(query, &data)
+        guard status == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
         }
         
-        deletingStatus = SecItemDelete(query)
-        
-        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
         }
         
         return data as! Data
     }
     
     /**
-     The key's attributes.
-     
-     List of available attributes:
-     [Security Framework Reference](https://developer.apple.com/reference/security/1658642-keychain_services/1662474-attribute_item_keys)
-     */
-    public var attributes: [String: AnyObject] {
-        
-        let query = [
-            (kSecClass as String): kSecClassKey,
-            (kSecAttrApplicationTag as String): UUID().uuidString as AnyObject,
-            (kSecValueRef as String): self,
-            (kSecReturnAttributes as String): true as AnyObject
-        ] as CFDictionary
-        
-        var attributes: AnyObject?
-        
-        var deletingStatus = SecItemDelete(query)
-        
-        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
-        }
-        
-        let addingStatus = SecItemAdd(query, &attributes)
-        
-        guard addingStatus == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
-        }
-        
-        deletingStatus = SecItemDelete(query)
-        
-        guard deletingStatus == errSecSuccess || deletingStatus == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(deletingStatus)) ?? RSAError.unknown)")
-        }
-        
-        return attributes as! [String: AnyObject]
-    }
-    
-    /*
-     TODO:
-     /**
      The key in PEM format.
      
      - seealso: [PEM Format Description](http://how2ssl.com/articles/working_with_pem_files/)
      */
-     public var pem: String {
-     var keyType = " "
-     
-     if let keyClass = self.attributes["kcls"] as? Int {
-     switch keyClass {
-     case 0:
-     keyType = " PUBLIC "
-     
-     case 1:
-     keyType = " PRIVATE "
-     
-     default:
-     break
-     }
-     }
-     
-     let pem = "-----BEGIN" + keyType + "KEY-----\n" +
-     self.data.base64EncodedStringWithOptions(
-     [.Encoding64CharacterLineLength,
-     .EncodingEndLineWithLineFeed]) +
-     "\n-----END" + keyType + "KEY-----"
-     
-     return pem
-     }
-     
-     // MARK: - Creating from Sources
-     
-     /**
-     Creates `SecKey` from the data.
+    public var pem: String {
+        var keyType = " "
+        
+        if let keyClass = attributes[kSecAttrKeyClass as String] as? Int {
+            
+            switch keyClass {
+            case Int(kSecAttrKeyClassPublic as String)!:
+                keyType = " PUBLIC "
+                
+            case Int(kSecAttrKeyClassPrivate as String)!:
+                keyType = " PRIVATE "
+                
+            default:
+                break
+            }
+        }
+        
+        let pem = "-----BEGIN" + keyType + "KEY-----\n" +
+            data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
+            "\n-----END" + keyType + "KEY-----"
+        
+        return pem
+    }
+    
+    // MARK: - Creation from Sources
+    
+    /**
+     Creates `SecKey` from data.
      
      - parameter data: The data used to create the key.
-     - parameter algorithm: The algorithm type of the key. One of the `CryptoAlgoritm`'s values.
-     - parameter isPublic: A Boolean value indicating the key is public or not.
+     - parameter isPublicKey: A Boolean value indicating the key is public or private.
      
      - returns: The `SecKey` object or nil if data is incorrect.
      */
-     public static func create(fromData data: NSData, algorithm: CryptoAlgorithm, isPublic: Bool) -> SecKey? {
-     let temporaryTag = NSUUID().UUIDString
-     
-     let attributes: [String: AnyObject] = [
-     (kSecClass as String): kSecClassKey,
-     (kSecAttrApplicationTag as String): temporaryTag,
-     (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
-     (kSecAttrKeyClass as String): isPublic ? kSecAttrKeyClassPublic: kSecAttrKeyClassPrivate,
-     (kSecValueData as String): data,
-     (kSecReturnRef as String): true
-     ]
-     
-     var cryptoKey: AnyObject?
-     
-     SecItemDelete(attributes)
-     SecItemAdd(attributes, &cryptoKey)
-     SecItemDelete(attributes)
-     
-     return cryptoKey as! SecKey?
-     }
-     
-     /**
-     Creates `SecKey` from PEM formatted text.
+    public static func make(from data: Data, isPublicKey: Bool) -> SecKey? {
+    
+        let query = [
+            (kSecClass as String): kSecClassKey,
+            (kSecAttrApplicationTag as String): UUID().uuidString,
+            (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
+            (kSecAttrKeyClass as String): isPublicKey ? kSecAttrKeyClassPublic: kSecAttrKeyClassPrivate,
+            (kSecValueData as String): data,
+            (kSecReturnRef as String): true
+            ]  as CFDictionary
+        
+        var secKey: AnyObject?
+        var status: OSStatus
+            
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemAdd(query, &secKey)
+        guard status == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        return secKey as! SecKey?
+    }
+    
+    /**
+     Creates `SecKey` from PEM text.
      
      - parameter pem: The string in PEM format.
-     - parameter algorithm: The algorithm type of the key. One of the `CryptoAlgoritm`'s values.
-     - parameter isPublic: A Boolean value indicating the key is public or not.
+     - parameter isPublicKey: A Boolean value indicating the key is public or private.
      
      - returns: The `SecKey` object or nil if PEM text is incorrect.
+     
+     - seealso: [PEM Format Description](http://how2ssl.com/articles/working_with_pem_files/)
      */
-     public static func create(fromPEM pem: String, algorithm: CryptoAlgorithm, isPublic: Bool) -> SecKey? {
-     var cryptoKey: AnyObject?
-     let temporaryTag = NSUUID().UUIDString
-     
-     let lines = pem.componentsSeparatedByString("\n")
-     .filter {!$0.hasPrefix("-----BEGIN") && !$0.hasPrefix("-----END")}
-     .joinWithSeparator("")
-     
-     var data = NSData(base64EncodedString: lines, options: .IgnoreUnknownCharacters)!
-     
-     if isPublic {
-     data = clearData(data)
-     }
-     
-     let attributes: [String: AnyObject] = [
-     (kSecClass as String): kSecClassKey,
-     (kSecAttrApplicationTag as String): temporaryTag,
-     (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
-     (kSecAttrKeyClass as String): isPublic ? kSecAttrKeyClassPublic : kSecAttrKeyClassPrivate,
-     (kSecValueData as String): data,
-     (kSecReturnRef as String): true
-     ]
-     
-     SecItemDelete(attributes)
-     SecItemAdd(attributes, &cryptoKey)
-     SecItemDelete(attributes)
-     
-     return cryptoKey as! SecKey?
-     }
+    public static func make(fromPEM pem: String, isPublicKey: Bool) -> SecKey? {
+        
+        let base64String = pem.components(separatedBy: "\n")
+            .filter {!$0.hasPrefix("-----BEGIN") && !$0.hasPrefix("-----END")}
+            .joined(separator: "")
+        
+        let data = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) ?? Data()
+        
+        let query = [
+            (kSecClass as String): kSecClassKey,
+            (kSecAttrApplicationTag as String): UUID().uuidString,
+            (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
+            (kSecAttrKeyClass as String): isPublicKey ? kSecAttrKeyClassPublic : kSecAttrKeyClassPrivate,
+            (kSecValueData as String): data,
+            (kSecReturnRef as String): true
+        ] as CFDictionary
+        
+        var secKey: AnyObject?
+        var status: OSStatus
+        
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemAdd(query, &secKey)
+        guard status == errSecSuccess else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        status = SecItemDelete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+        }
+        
+        return secKey as! SecKey?
+    }
+    
+    /*
      
      private static func clearData(data: NSData) -> NSData {
      var dataBytes = [UInt8](count: data.length, repeatedValue: 0)
