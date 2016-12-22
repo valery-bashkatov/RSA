@@ -285,7 +285,7 @@ class RSATests: XCTestCase {
         var signature = Data()
             
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA1)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA1)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -297,7 +297,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA224)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA224)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -309,7 +309,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA256)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA256)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -321,7 +321,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA384)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA384)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -333,7 +333,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA512)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA512)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -346,13 +346,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA1)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA1)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digest: .PKCS1SHA1, signature: signature)
+            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA1, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -365,13 +365,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA224)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA224)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digest: .PKCS1SHA224, signature: signature)
+            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA224, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -384,13 +384,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA256)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA256)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digest: .PKCS1SHA256, signature: signature)
+            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA256, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -403,13 +403,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA384)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA384)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digest: .PKCS1SHA384, signature: signature)
+            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA384, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -422,13 +422,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digest: .PKCS1SHA512)
+            signature = try RSA.sign(data: text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA512)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digest: .PKCS1SHA512, signature: signature)
+            result = try RSA.verify(data: text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA512, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }

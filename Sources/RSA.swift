@@ -98,100 +98,100 @@ open class RSA {
         return Data(bytes: decryptedData, count: decryptedDataCount)
     }
     
-    // MARK: - Digital Signature
+    // MARK: - Digital Signatures
     
     /**
-     Signs a data (digest) using private key and returns a digital signature.
+     Signs a data (digest) using private key and returns a digital signature. The data will be hashed using specified digest type and then signed with private key.
      
      - parameter data: The data to be signed.
      - parameter privateKey: The private key with which to sign the data.
-     - parameter digest: The digest, which is used for signing. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.
+     - parameter digestType: The digest type. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.
      
      - throws: An `RSAError` if an error occurs.
      
      - returns: The digital signature of data.
      */
-    static open func sign(data: Data, using privateKey: SecKey, digest: SecPadding) throws -> Data {
-        var digestData: [UInt8]
+    static open func sign(data: Data, using privateKey: SecKey, digestType: SecPadding) throws -> Data {
+        var digest: [UInt8]
         
-        switch digest {
+        switch digestType {
         case SecPadding.PKCS1SHA1:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
-            CC_SHA1([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
+            CC_SHA1([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA224:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA224_DIGEST_LENGTH))
-            CC_SHA224([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA224_DIGEST_LENGTH))
+            CC_SHA224([UInt8](data), CC_LONG(data.count), &digest)
 
         case SecPadding.PKCS1SHA256:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-            CC_SHA256([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+            CC_SHA256([UInt8](data), CC_LONG(data.count), &digest)
 
         case SecPadding.PKCS1SHA384:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA384_DIGEST_LENGTH))
-            CC_SHA384([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA384_DIGEST_LENGTH))
+            CC_SHA384([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA512:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA512_DIGEST_LENGTH))
-            CC_SHA512([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA512_DIGEST_LENGTH))
+            CC_SHA512([UInt8](data), CC_LONG(data.count), &digest)
             
         default:
             throw RSAError.invalidDigest
         }
         
-        var signatureData = [UInt8](repeating: 0, count: SecKeyGetBlockSize(privateKey))
-        var signatureDataCount = signatureData.count
+        var signature = [UInt8](repeating: 0, count: SecKeyGetBlockSize(privateKey))
+        var signatureCount = signature.count
         
-        let status = SecKeyRawSign(privateKey, digest, digestData, digestData.count, &signatureData, &signatureDataCount)
+        let status = SecKeyRawSign(privateKey, digestType, digest, digest.count, &signature, &signatureCount)
         
         guard status == errSecSuccess else {
             throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
         }
         
-        return Data(bytes: signatureData, count: signatureDataCount)
+        return Data(bytes: signature, count: signatureCount)
     }
     
     /**
-     Verifies a data (digest) using public key and digital signature.
+     Verifies a data (digest) using public key and digital signature. The data will be hashed using specified digest type, and then digest will be verified with public key and signature.
      
      - parameter data: The data for which the signature is being verified
      - parameter publicKey: The public key with which to verify the data.
-     - parameter digest: The digest, which is used for verifying. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.
+     - parameter digestType: The digest, which is used for verifying. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.
      - parameter signature: The digital signature to be verified.
      
      - throws: An `RSAError` if an error occurs.
      
      - returns: Result of data verification.
      */
-    static open func verify(data: Data, using publicKey: SecKey, digest: SecPadding, signature: Data) throws -> Bool {
-        var digestData: [UInt8]
+    static open func verify(data: Data, using publicKey: SecKey, digestType: SecPadding, signature: Data) throws -> Bool {
+        var digest: [UInt8]
         
-        switch digest {
+        switch digestType {
         case SecPadding.PKCS1SHA1:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
-            CC_SHA1([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
+            CC_SHA1([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA224:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA224_DIGEST_LENGTH))
-            CC_SHA224([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA224_DIGEST_LENGTH))
+            CC_SHA224([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA256:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
-            CC_SHA256([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+            CC_SHA256([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA384:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA384_DIGEST_LENGTH))
-            CC_SHA384([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA384_DIGEST_LENGTH))
+            CC_SHA384([UInt8](data), CC_LONG(data.count), &digest)
             
         case SecPadding.PKCS1SHA512:
-            digestData = [UInt8](repeating: 0, count: Int(CC_SHA512_DIGEST_LENGTH))
-            CC_SHA512([UInt8](data), CC_LONG(data.count), &digestData)
+            digest = [UInt8](repeating: 0, count: Int(CC_SHA512_DIGEST_LENGTH))
+            CC_SHA512([UInt8](data), CC_LONG(data.count), &digest)
             
         default:
             throw RSAError.invalidDigest
         }
         
-        let status = SecKeyRawVerify(publicKey, digest, digestData, digestData.count, [UInt8](signature), signature.count)
+        let status = SecKeyRawVerify(publicKey, digestType, digest, digest.count, [UInt8](signature), signature.count)
         
         switch status {
         case errSecSuccess: return true
