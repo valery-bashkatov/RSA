@@ -47,6 +47,7 @@
 		838A74081E087E6E009DC3DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		838A740F1E087E6E009DC3DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83B46F2B1E093405003DB590 /* RSATestsHostApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RSATestsHostApp.entitlements; sourceTree = "<group>"; };
+		83C1FB361E0AF9D300E4434F /* RSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSA.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				8323B30D1E008C0800FE3953 /* Info.plist */,
+				83C1FB361E0AF9D300E4434F /* RSA.h */,
 				8323B3231E008D2000FE3953 /* RSA.swift */,
 				8323B32D1E008E9700FE3953 /* RSAError.swift */,
 				8323B32B1E008E6600FE3953 /* SecKey+Extension.swift */,
@@ -440,6 +442,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Sources/RSA.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -460,6 +463,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.bashkatov.valery.RSA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = Sources/RSA.h;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
