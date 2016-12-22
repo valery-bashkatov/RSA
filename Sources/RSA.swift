@@ -111,7 +111,7 @@ open class RSA {
      
      - returns: The digital signature of data.
      */
-    static open func sign(data: Data, using privateKey: SecKey, digestType: SecPadding) throws -> Data {
+    static open func sign(_ data: Data, using privateKey: SecKey, digestType: SecPadding) throws -> Data {
         var digest: [UInt8]
         
         switch digestType {
@@ -163,7 +163,7 @@ open class RSA {
      
      - returns: Result of data verification.
      */
-    static open func verify(data: Data, using publicKey: SecKey, digestType: SecPadding, signature: Data) throws -> Bool {
+    static open func verify(_ data: Data, using publicKey: SecKey, digestType: SecPadding, signature: Data) throws -> Bool {
         var digest: [UInt8]
         
         switch digestType {
