@@ -18,8 +18,8 @@ public struct RSAError: Error, CustomStringConvertible {
     /// The error code.
     public let code: Int
     
-    /// The localized description.
-    public var localizedDescription: String {
+    /// The description.
+    public var description: String {
         let descriptions = [
             -4: "The function or operation is not implemented",
             -50: "One or more parameters passed to a function were not valid",
@@ -34,11 +34,6 @@ public struct RSAError: Error, CustomStringConvertible {
         ]
         
         return descriptions[code] ?? "Unknown error (\(code))"
-    }
-    
-    /// The description.
-    public var description: String {
-        return localizedDescription
     }
     
     // MARK: - Initialization
