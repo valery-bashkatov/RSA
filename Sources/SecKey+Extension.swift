@@ -33,17 +33,17 @@ public extension SecKey {
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemAdd(query, &attributes)
         guard status == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         return attributes as! [String: AnyObject]
@@ -64,17 +64,17 @@ public extension SecKey {
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemAdd(query, &data)
         guard status == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         return data as! Data
@@ -135,17 +135,17 @@ public extension SecKey {
             
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemAdd(query, &secKey)
         guard status == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         return secKey as! SecKey?
@@ -183,17 +183,17 @@ public extension SecKey {
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemAdd(query, &secKey)
         guard status == errSecSuccess else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(rawValue: Int(status)) ?? RSAError.unknown)")
+            fatalError("\(RSAError(code: Int(status)))")
         }
         
         return secKey as! SecKey?

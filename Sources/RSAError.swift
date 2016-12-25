@@ -11,63 +11,46 @@ import Foundation
 /**
  The `RSAError` represents `RSA`'s errors.
  */
-public enum RSAError: Int, Error, CustomStringConvertible {
+public struct RSAError: Error, CustomStringConvertible {
     
-    /// The function or operation is not implemented.
-    case unimplementedFunction = -4
+    // MARK: - Properties
     
-    /// One or more parameters passed to a function were not valid.
-    case invalidParameter = -50
+    /// The error code.
+    public let code: Int
     
-    /// Failed to allocate memory.
-    case memoryAllocationFailed = -108
+    /// The localized description.
+    public var localizedDescription: String {
+        let descriptions = [
+            -4: "The function or operation is not implemented",
+            -50: "One or more parameters passed to a function were not valid",
+            -108: "Failed to allocate memory",
+            -25291: "No keychain is available",
+            -25299: "An item with the same primary key attributes already exists",
+            -25300: "The item cannot be found",
+            -25308: "Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program",
+            -26275: "Unable to decode the provided data",
+            -34018: "Internal error when a required entitlement isn't present. Keychain entitlement required",
+            10: "Invalid digest algorithm. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512"
+        ]
+        
+        return descriptions[code] ?? "Unknown error (\(code))"
+    }
     
-    /// No keychain is available.
-    case keychainUnavailable = -25291
-    
-    /// Authorization or authentication failed.
-    case authFailed = -25293
-    
-    /// An item with the same primary key attributes already exists.
-    case duplicateKey = -25299
-    
-    /// The item cannot be found.
-    case keyNotFound = -25300
-    
-    /// Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program.
-    case interactionNotAllowed = -25308
-    
-    /// Unable to decode the provided data.
-    case dataDecodeError = -26275
-    
-    /// Internal error when a required entitlement isn't present. Keychain entitlement required.
-    case missingEntitlement = -34018
-
-    /// Unknown error.
-    case unknown = 0
-
-    /// Invalid digest. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.
-    case invalidDigest = 10
-    
-    /// Text description of the error.
+    /// The description.
     public var description: String {
-        let text: String
-        
-        switch self {
-        case .unimplementedFunction: text = "The function or operation is not implemented."
-        case .invalidParameter: text = "One or more parameters passed to a function were not valid."
-        case .memoryAllocationFailed: text = "Failed to allocate memory."
-        case .keychainUnavailable: text = "No keychain is available."
-        case .authFailed: text = "Authorization or authentication failed."
-        case .duplicateKey: text = "An item with the same primary key attributes already exists."
-        case .keyNotFound: text = "The item cannot be found."
-        case .interactionNotAllowed: text = "Interaction with the user is required in order to grant access or process a request; however, user interaction with the Security Server has been disabled by the program."
-        case .dataDecodeError: text = "Unable to decode the provided data."
-        case .missingEntitlement: text = "Internal error when a required entitlement isn't present. Keychain entitlement required."
-        case .unknown: text = "Unknown error."
-        case .invalidDigest: text = "Invalid digest. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512."
-        }
-        
-        return "RSAError (\(self.rawValue)): \(text)"
+        return localizedDescription
+    }
+    
+    // MARK: - Initialization
+    
+    /**
+     Initializes `RSAError` instance.
+     
+     - parameter code: A system code of an error.
+     
+     - returns: An `RSAError`.
+     */
+    init(code: Int) {
+        self.code = code
     }
 }

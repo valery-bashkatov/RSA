@@ -42,7 +42,7 @@ open class RSA {
         let status = SecKeyGeneratePair(parameters, &publicKey, &privateKey)
         
         guard status == errSecSuccess else {
-            throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
+            throw RSAError(code: Int(status))
         }
 
         return (publicKey: publicKey!, privateKey: privateKey!)
@@ -68,7 +68,7 @@ open class RSA {
         let status = SecKeyEncrypt(publicKey, padding, [UInt8](data), data.count, &encryptedData, &encryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: encryptedData, count: encryptedDataCount)
@@ -92,7 +92,7 @@ open class RSA {
         let status = SecKeyDecrypt(privateKey, padding, [UInt8](data), data.count, &decryptedData, &decryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: decryptedData, count: decryptedDataCount)
@@ -136,7 +136,7 @@ open class RSA {
             CC_SHA512([UInt8](data), CC_LONG(data.count), &digest)
             
         default:
-            throw RSAError.invalidDigest
+            throw RSAError(code: 10)
         }
         
         var signature = [UInt8](repeating: 0, count: SecKeyGetBlockSize(privateKey))
@@ -145,7 +145,7 @@ open class RSA {
         let status = SecKeyRawSign(privateKey, digestType, digest, digest.count, &signature, &signatureCount)
         
         guard status == errSecSuccess else {
-            throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: signature, count: signatureCount)
@@ -188,7 +188,7 @@ open class RSA {
             CC_SHA512([UInt8](data), CC_LONG(data.count), &digest)
             
         default:
-            throw RSAError.invalidDigest
+            throw RSAError(code: 10)
         }
         
         let status = SecKeyRawVerify(publicKey, digestType, digest, digest.count, [UInt8](signature), signature.count)
@@ -196,7 +196,7 @@ open class RSA {
         switch status {
         case errSecSuccess: return true
         case errSSLCrypto: return false
-        default: throw (RSAError(rawValue: Int(status)) ?? RSAError.unknown)
+        default: throw RSAError(code: Int(status))
         }
     }
 }
