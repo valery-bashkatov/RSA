@@ -12,7 +12,12 @@ import XCTest
 class RSATests: XCTestCase {
     
     let text = "RSATests 2016"
-    var keyPair: (publicKey: SecKey, privateKey: SecKey)!
+    var textData: Data {
+        return text.data(using: .utf8)!
+    }
+    
+    var publicKey: SecKey!
+    var privateKey: SecKey!
     
     // MARK: - Helpers
     
@@ -57,93 +62,112 @@ class RSATests: XCTestCase {
         super.setUp()
         
         do {
-            keyPair = try RSA.generateKeyPair(withSize: 2048)
+            let keyPair = try RSA.generateKeyPair(withSize: 2048)
+            
+            publicKey = keyPair.publicKey
+            privateKey = keyPair.privateKey
         } catch {
             XCTFail("Keys generation failed: \(error)")
         }
     }
     
     func testPublicKey() {
-        XCTAssertTrue("\(keyPair.publicKey)"
+        XCTAssertTrue("\(publicKey)"
             .components(separatedBy: ", ")
             .contains {$0.hasPrefix("key type: RSAPublicKey")})
     }
     
     func testPrivateKey() {
-        XCTAssertTrue("\(keyPair.privateKey)"
+        XCTAssertTrue("\(privateKey)"
             .components(separatedBy: ", ")
             .contains {$0.hasPrefix("key type: RSAPrivateKey")})
     }
     
     func testKeySize512() {
+        var publicKey512: SecKey
+        var privateKey512: SecKey
+        
         do {
-            keyPair = try RSA.generateKeyPair(withSize: 512)
+            (publicKey512, privateKey512) = try RSA.generateKeyPair(withSize: 512)
+            
+            XCTAssertTrue("\(publicKey512)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 512 bits")})
+            
+            XCTAssertTrue("\(privateKey512)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 512 bits")})
+            
         } catch {
             XCTFail("Keys generation failed: \(error)")
         }
-        
-        XCTAssertTrue("\(keyPair.publicKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 512 bits")})
-        
-        XCTAssertTrue("\(keyPair.privateKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 512 bits")})
     }
     
     func testKeySize768() {
+        var publicKey768: SecKey
+        var privateKey768: SecKey
+        
         do {
-            keyPair = try RSA.generateKeyPair(withSize: 768)
+            (publicKey768, privateKey768) = try RSA.generateKeyPair(withSize: 768)
+            
+            XCTAssertTrue("\(publicKey768)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 768 bits")})
+            
+            XCTAssertTrue("\(privateKey768)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 768 bits")})
+            
         } catch {
             XCTFail("Keys generation failed: \(error)")
         }
-        
-        XCTAssertTrue("\(keyPair.publicKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 768 bits")})
-        
-        XCTAssertTrue("\(keyPair.privateKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 768 bits")})
     }
     
     func testKeySize1024() {
+        var publicKey1024: SecKey
+        var privateKey1024: SecKey
+        
         do {
-            keyPair = try RSA.generateKeyPair(withSize: 1024)
+            (publicKey1024, privateKey1024) = try RSA.generateKeyPair(withSize: 1024)
+            
+            XCTAssertTrue("\(publicKey1024)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 1024 bits")})
+            
+            XCTAssertTrue("\(privateKey1024)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 1024 bits")})
+            
         } catch {
             XCTFail("Keys generation failed: \(error)")
         }
-        
-        XCTAssertTrue("\(keyPair.publicKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 1024 bits")})
-    
-        XCTAssertTrue("\(keyPair.privateKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 1024 bits")})
     }
     
     func testKeySize2048() {
+        var publicKey2048: SecKey
+        var privateKey2048: SecKey
+        
         do {
-            keyPair = try RSA.generateKeyPair(withSize: 2048)
+            (publicKey2048, privateKey2048) = try RSA.generateKeyPair(withSize: 2048)
+            
+            XCTAssertTrue("\(publicKey2048)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 2048 bits")})
+            
+            XCTAssertTrue("\(privateKey2048)"
+                .components(separatedBy: ", ")
+                .contains {$0.hasPrefix("block size: 2048 bits")})
+            
         } catch {
             XCTFail("Keys generation failed: \(error)")
         }
-        
-        XCTAssertTrue("\(keyPair.publicKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 2048 bits")})
-        
-        XCTAssertTrue("\(keyPair.privateKey)"
-            .components(separatedBy: ", ")
-            .contains {$0.hasPrefix("block size: 2048 bits")})
     }
     
     func testEncrypt() {
         var encryptedData = Data()
         
         do {
-            encryptedData = try RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+            encryptedData = try RSA.encrypt(data: textData, using: publicKey)
         } catch {
             XCTFail("Data encryption failed: \(error)")
         }
@@ -156,13 +180,13 @@ class RSATests: XCTestCase {
         var decryptedData = Data()
         
         do {
-            encryptedData = try RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+            encryptedData = try RSA.encrypt(data: textData, using: publicKey)
         } catch {
             XCTFail("Data encryption failed: \(error)")
         }
         
         do {
-            decryptedData = try RSA.decrypt(data: encryptedData, using: keyPair.privateKey)
+            decryptedData = try RSA.decrypt(data: encryptedData, using: privateKey)
         } catch {
             XCTFail("Data decryption failed: \(error)")
         }
@@ -175,30 +199,30 @@ class RSATests: XCTestCase {
         var decryptedData = Data()
         
         do {
-            encryptedData = try RSA.encrypt(data: text.data(using: .utf8)!, using: keyPair.publicKey)
+            encryptedData = try RSA.encrypt(data: textData, using: publicKey)
         } catch {
             XCTFail("Data encryption failed: \(error)")
         }
         
         do {
-            decryptedData = try RSA.decrypt(data: encryptedData, using: keyPair.privateKey)
+            decryptedData = try RSA.decrypt(data: encryptedData, using: privateKey)
         } catch {
             XCTFail("Data decryption failed: \(error)")
         }
         
-        XCTAssertEqual(String(data: decryptedData, encoding: .utf8), text)
+        XCTAssertEqual(decryptedData, textData)
     }
     
     func testPublicKeyData() {
-        XCTAssertTrue(!keyPair.publicKey.data.isEmpty)
+        XCTAssertTrue(!publicKey.data.isEmpty)
     }
     
     func testPrivateKeyData() {
-        XCTAssertTrue(!keyPair.privateKey.data.isEmpty)
+        XCTAssertTrue(!privateKey.data.isEmpty)
     }
     
     func testPublicKeyAttributes() {
-        let attributes = keyPair.publicKey.attributes
+        let attributes = publicKey.attributes
         
         let keyType = attributes[kSecAttrType as String] as? Int
         let keySize = attributes[kSecAttrKeySizeInBits as String] as? Int
@@ -214,7 +238,7 @@ class RSATests: XCTestCase {
     }
     
     func testPrivateKeyAttributes() {
-        let attributes = keyPair.privateKey.attributes
+        let attributes = privateKey.attributes
         
         let keyType = attributes[kSecAttrType as String] as? Int
         let keySize = attributes[kSecAttrKeySizeInBits as String] as? Int
@@ -231,61 +255,57 @@ class RSATests: XCTestCase {
     
     func testPublicKeyPEM() {
         let expectedPem = "-----BEGIN PUBLIC KEY-----\n" +
-            keyPair.publicKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
+            publicKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
             "\n-----END PUBLIC KEY-----"
         
-        let pem = keyPair.publicKey.pem
+        let pem = publicKey.pem
 
         XCTAssertEqual(pem, expectedPem)
     }
     
     func testPrivateKeyPEM() {
         let expectedPem = "-----BEGIN PRIVATE KEY-----\n" +
-            keyPair.privateKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
+            privateKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
             "\n-----END PRIVATE KEY-----"
         
-        let pem = keyPair.privateKey.pem
+        let pem = privateKey.pem
         
         XCTAssertEqual(pem, expectedPem)
     }
     
     func testMakePublicKeyFromData() {
-        let data = keyPair.publicKey.data
-        let publicKey = SecKey.make(from: data, isPublicKey: true)
+        let expectedPublicKey = SecKey.make(from: publicKey.data, isPublicKey: true)
         
         XCTAssertNotNil(publicKey)
-        XCTAssertTrue(isEqual(firstPublicKey: keyPair.publicKey, secondPublicKey: publicKey))
+        XCTAssertTrue(isEqual(firstPublicKey: publicKey, secondPublicKey: expectedPublicKey))
     }
     
     func testMakePrivateKeyFromData() {
-        let data = keyPair.privateKey.data
-        let privateKey = SecKey.make(from: data, isPublicKey: false)
+        let expectedPrivateKey = SecKey.make(from: privateKey.data, isPublicKey: false)
         
         XCTAssertNotNil(privateKey)
-        XCTAssertTrue(isEqual(firstPrivateKey: keyPair.privateKey, secondPrivateKey: privateKey))
+        XCTAssertTrue(isEqual(firstPrivateKey: privateKey, secondPrivateKey: expectedPrivateKey))
     }
     
     func testMakePublicKeyFromPEM() {
-        let pem = keyPair.publicKey.pem
-        let publicKey = SecKey.make(fromPEM: pem, isPublicKey: true)
+        let expectedPublicKey = SecKey.make(fromPEM: publicKey.pem, isPublicKey: true)
         
         XCTAssertNotNil(publicKey)
-        XCTAssertTrue(isEqual(firstPublicKey: keyPair.publicKey, secondPublicKey: publicKey))
+        XCTAssertTrue(isEqual(firstPublicKey: publicKey, secondPublicKey: expectedPublicKey))
     }
     
     func testMakePrivateKeyFromPEM() {
-        let pem = keyPair.privateKey.pem
-        let privateKey = SecKey.make(fromPEM: pem, isPublicKey: false)
+        let expectedPrivateKey = SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
         
         XCTAssertNotNil(privateKey)
-        XCTAssertTrue(isEqual(firstPrivateKey: keyPair.privateKey, secondPrivateKey: privateKey))
+        XCTAssertTrue(isEqual(firstPrivateKey: privateKey, secondPrivateKey: expectedPrivateKey))
     }
     
     func testSignSHA1() {
         var signature = Data()
             
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA1)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA1)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -297,7 +317,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA224)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA224)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -309,7 +329,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA256)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA256)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -321,7 +341,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA384)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA384)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -333,7 +353,7 @@ class RSATests: XCTestCase {
         var signature = Data()
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA512)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA512)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
@@ -346,13 +366,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA1)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA1)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA1, signature: signature)
+            result = try RSA.verify(textData, using: publicKey, digestAlgorithm: .PKCS1SHA1, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -365,13 +385,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA224)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA224)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA224, signature: signature)
+            result = try RSA.verify(textData, using: publicKey, digestAlgorithm: .PKCS1SHA224, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -384,13 +404,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA256)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA256)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA256, signature: signature)
+            result = try RSA.verify(textData, using: publicKey, digestAlgorithm: .PKCS1SHA256, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -403,13 +423,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA384)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA384)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA384, signature: signature)
+            result = try RSA.verify(textData, using: publicKey, digestAlgorithm: .PKCS1SHA384, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
@@ -422,13 +442,13 @@ class RSATests: XCTestCase {
         var result = false
         
         do {
-            signature = try RSA.sign(text.data(using: .utf8)!, using: keyPair.privateKey, digestType: .PKCS1SHA512)
+            signature = try RSA.sign(textData, using: privateKey, digestAlgorithm: .PKCS1SHA512)
         } catch {
             XCTFail("Data signing failed: \(error)")
         }
         
         do {
-            result = try RSA.verify(text.data(using: .utf8)!, using: keyPair.publicKey, digestType: .PKCS1SHA512, signature: signature)
+            result = try RSA.verify(textData, using: publicKey, digestAlgorithm: .PKCS1SHA512, signature: signature)
         } catch {
             XCTFail("Data verification failed: \(error)")
         }
