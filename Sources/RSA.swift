@@ -42,7 +42,7 @@ open class RSA {
         let status = SecKeyGeneratePair(parameters, &publicKey, &privateKey)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: Int(status))
+            throw RSAError(code: status)
         }
 
         return (publicKey: publicKey!, privateKey: privateKey!)
@@ -68,7 +68,7 @@ open class RSA {
         let status = SecKeyEncrypt(publicKey, padding, [UInt8](data), data.count, &encryptedData, &encryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: Int(status))
+            throw RSAError(code: status)
         }
         
         return Data(bytes: encryptedData, count: encryptedDataCount)
@@ -92,7 +92,7 @@ open class RSA {
         let status = SecKeyDecrypt(privateKey, padding, [UInt8](data), data.count, &decryptedData, &decryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: Int(status))
+            throw RSAError(code: status)
         }
         
         return Data(bytes: decryptedData, count: decryptedDataCount)
@@ -145,7 +145,7 @@ open class RSA {
         let status = SecKeyRawSign(privateKey, digestAlgorithm, digest, digest.count, &signature, &signatureCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: Int(status))
+            throw RSAError(code: status)
         }
         
         return Data(bytes: signature, count: signatureCount)
@@ -196,7 +196,7 @@ open class RSA {
         switch status {
         case errSecSuccess: return true
         case errSSLCrypto: return false
-        default: throw RSAError(code: Int(status))
+        default: throw RSAError(code: status)
         }
     }
 }
