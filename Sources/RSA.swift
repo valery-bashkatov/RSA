@@ -12,12 +12,12 @@ import Security
 /**
  The `RSA` class provides a set of tools for working with RSA cryptographic algorithm.
  */
-open class RSA {
+public class RSA {
     
     // MARK: - Initialization
     
     /// :nodoc:
-    fileprivate init() {}
+    private init() {}
     
     // MARK: - Keys Generation
     
@@ -30,7 +30,7 @@ open class RSA {
      
      - returns: A tuple with public and private key.
      */
-    static open func generateKeyPair(withSize keySize: Int) throws -> (publicKey: SecKey, privateKey: SecKey) {
+    static public func generateKeyPair(withSize keySize: Int) throws -> (publicKey: SecKey, privateKey: SecKey) {
         var publicKey: SecKey?
         var privateKey: SecKey?
         
@@ -42,7 +42,7 @@ open class RSA {
         let status = SecKeyGeneratePair(parameters, &publicKey, &privateKey)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: status)
+            throw RSAError(code: Int(status))
         }
 
         return (publicKey: publicKey!, privateKey: privateKey!)
@@ -61,14 +61,14 @@ open class RSA {
      
      - returns: The encrypted data.
      */
-    static open func encrypt(data: Data, using publicKey: SecKey, padding: SecPadding = .PKCS1) throws -> Data {
+    static public func encrypt(data: Data, using publicKey: SecKey, padding: SecPadding = .PKCS1) throws -> Data {
         var encryptedData = [UInt8](repeating: 0, count: SecKeyGetBlockSize(publicKey))
         var encryptedDataCount = encryptedData.count
         
         let status = SecKeyEncrypt(publicKey, padding, [UInt8](data), data.count, &encryptedData, &encryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: status)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: encryptedData, count: encryptedDataCount)
@@ -85,14 +85,14 @@ open class RSA {
      
      - returns: The encrypted data.
      */
-    static open func decrypt(data: Data, using privateKey: SecKey, padding: SecPadding = .PKCS1) throws -> Data {
+    static public func decrypt(data: Data, using privateKey: SecKey, padding: SecPadding = .PKCS1) throws -> Data {
         var decryptedData = [UInt8](repeating: 0, count: SecKeyGetBlockSize(privateKey))
         var decryptedDataCount = decryptedData.count
         
         let status = SecKeyDecrypt(privateKey, padding, [UInt8](data), data.count, &decryptedData, &decryptedDataCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: status)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: decryptedData, count: decryptedDataCount)
@@ -111,7 +111,7 @@ open class RSA {
      
      - returns: The digital signature of data.
      */
-    static open func sign(_ data: Data, using privateKey: SecKey, digestAlgorithm: SecPadding) throws -> Data {
+    static public func sign(_ data: Data, using privateKey: SecKey, digestAlgorithm: SecPadding) throws -> Data {
         var digest: [UInt8]
         
         switch digestAlgorithm {
@@ -145,7 +145,7 @@ open class RSA {
         let status = SecKeyRawSign(privateKey, digestAlgorithm, digest, digest.count, &signature, &signatureCount)
         
         guard status == errSecSuccess else {
-            throw RSAError(code: status)
+            throw RSAError(code: Int(status))
         }
         
         return Data(bytes: signature, count: signatureCount)
@@ -163,7 +163,7 @@ open class RSA {
      
      - returns: Result of data verification.
      */
-    static open func verify(_ data: Data, using publicKey: SecKey, digestAlgorithm: SecPadding, signature: Data) throws -> Bool {
+    static public func verify(_ data: Data, using publicKey: SecKey, digestAlgorithm: SecPadding, signature: Data) throws -> Bool {
         var digest: [UInt8]
         
         switch digestAlgorithm {
@@ -196,7 +196,7 @@ open class RSA {
         switch status {
         case errSecSuccess: return true
         case errSSLCrypto: return false
-        default: throw RSAError(code: status)
+        default: throw RSAError(code: Int(status))
         }
     }
 }

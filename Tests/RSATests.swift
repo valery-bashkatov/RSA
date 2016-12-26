@@ -258,9 +258,7 @@ class RSATests: XCTestCase {
             publicKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
             "\n-----END PUBLIC KEY-----"
         
-        let pem = publicKey.pem
-
-        XCTAssertEqual(pem, expectedPem)
+        XCTAssertEqual(publicKey.pem, expectedPem)
     }
     
     func testPrivateKeyPEM() {
@@ -268,37 +266,64 @@ class RSATests: XCTestCase {
             privateKey.data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
             "\n-----END PRIVATE KEY-----"
         
-        let pem = privateKey.pem
-        
-        XCTAssertEqual(pem, expectedPem)
+        XCTAssertEqual(privateKey.pem, expectedPem)
     }
     
     func testMakePublicKeyFromData() {
-        let expectedPublicKey = SecKey.make(from: publicKey.data, isPublicKey: true)
+        let publicKeyFromData = SecKey.make(from: publicKey.data, isPublicKey: true)
         
-        XCTAssertNotNil(publicKey)
-        XCTAssertTrue(isEqual(firstPublicKey: publicKey, secondPublicKey: expectedPublicKey))
+        XCTAssertNotNil(publicKeyFromData)
+        XCTAssertTrue(isEqual(firstPublicKey: publicKeyFromData, secondPublicKey: publicKey))
     }
     
     func testMakePrivateKeyFromData() {
-        let expectedPrivateKey = SecKey.make(from: privateKey.data, isPublicKey: false)
+        let privateKeyFromData = SecKey.make(from: privateKey.data, isPublicKey: false)
         
-        XCTAssertNotNil(privateKey)
-        XCTAssertTrue(isEqual(firstPrivateKey: privateKey, secondPrivateKey: expectedPrivateKey))
+        XCTAssertNotNil(privateKeyFromData)
+        XCTAssertTrue(isEqual(firstPrivateKey: privateKeyFromData, secondPrivateKey: privateKey))
     }
     
-    func testMakePublicKeyFromPEM() {
-        let expectedPublicKey = SecKey.make(fromPEM: publicKey.pem, isPublicKey: true)
+    func testMakePublicKeyFromPEMWithoutHeader() {
+        let publicKeyFromPEMWithoutHeader = SecKey.make(fromPEM: publicKey.pem, isPublicKey: true)
         
-        XCTAssertNotNil(publicKey)
-        XCTAssertTrue(isEqual(firstPublicKey: publicKey, secondPublicKey: expectedPublicKey))
+        XCTAssertNotNil(publicKeyFromPEMWithoutHeader)
+        XCTAssertTrue(isEqual(firstPublicKey: publicKeyFromPEMWithoutHeader, secondPublicKey: publicKey))
+    }
+    
+    func testMakePublicKeyFromPEMWithHeader() {
+        let pemWithHeader = "-----BEGIN PUBLIC KEY-----\n" +
+            "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAklgpC1sTwtmTKh6StTyp\n" +
+            "qM84s32fpgdVjYvcb9M9VHdj/2PB+dFDnNHnXoe2iRsWl683Dtz0mySFk4wn6fF6\n" +
+            "8EO4/Yh999/OvtBpnTkjGUw8IA+mypSiRla8xHJ86iQu2o0lKny97cq1VvMG7yYp\n" +
+            "ctl4NSM24P2nIf66boJIVN5f12ZJH7Id81FA70jgKNyEl5gNaMrRk99oL4imnrt9\n" +
+            "djZxel8msAISUV/cQLHHBSWTKSWaPJm2xBS470Xj2SuKkZ+VJHIF6t2EiqcJ1xNy\n" +
+            "+riY+COifiCYMw4NCfb/8f88+c0+gQFtt0sJ2N2XoEcyefmCdt3fTf2PV5hAiC/4\n" +
+            "RQIDAQAB\n" +
+        "-----END PUBLIC KEY-----"
+        
+        let pemWithoutHeader = "-----BEGIN PUBLIC KEY-----\n" +
+            "MIIBCgKCAQEAklgpC1sTwtmTKh6StTypqM84s32fpgdVjYvcb9M9VHdj/2PB+dFD\n" +
+            "nNHnXoe2iRsWl683Dtz0mySFk4wn6fF68EO4/Yh999/OvtBpnTkjGUw8IA+mypSi\n" +
+            "Rla8xHJ86iQu2o0lKny97cq1VvMG7yYpctl4NSM24P2nIf66boJIVN5f12ZJH7Id\n" +
+            "81FA70jgKNyEl5gNaMrRk99oL4imnrt9djZxel8msAISUV/cQLHHBSWTKSWaPJm2\n" +
+            "xBS470Xj2SuKkZ+VJHIF6t2EiqcJ1xNy+riY+COifiCYMw4NCfb/8f88+c0+gQFt\n" +
+            "t0sJ2N2XoEcyefmCdt3fTf2PV5hAiC/4RQIDAQAB\n" +
+        "-----END PUBLIC KEY-----"
+        
+        let publicKeyFromPEMWithHeader = SecKey.make(fromPEM: pemWithHeader, isPublicKey: true)
+        let publicKeyFromPEMWithoutHeader = SecKey.make(fromPEM: pemWithoutHeader, isPublicKey: true)
+        
+        XCTAssertNotNil(publicKeyFromPEMWithHeader)
+        XCTAssertNotNil(publicKeyFromPEMWithoutHeader)
+        
+        XCTAssertTrue(isEqual(firstPublicKey: publicKeyFromPEMWithHeader, secondPublicKey: publicKeyFromPEMWithoutHeader))
     }
     
     func testMakePrivateKeyFromPEM() {
-        let expectedPrivateKey = SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
+        let privateKeyFromPEM = SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
         
-        XCTAssertNotNil(privateKey)
-        XCTAssertTrue(isEqual(firstPrivateKey: privateKey, secondPrivateKey: expectedPrivateKey))
+        XCTAssertNotNil(privateKeyFromPEM)
+        XCTAssertTrue(isEqual(firstPrivateKey: privateKeyFromPEM, secondPrivateKey: privateKey))
     }
     
     func testSignSHA1() {
