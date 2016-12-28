@@ -19,7 +19,7 @@ public extension SecKey {
      List of available attributes:
      [Security Framework Reference. Attribute Item Keys](https://developer.apple.com/reference/security/1658642-keychain_services/1662474-attribute_item_keys)
      */
-    public var attributes: [String: AnyObject] {
+    public var attributes: [String: Any] {
         
         let query = [
             (kSecClass as String): kSecClassKey,
@@ -46,7 +46,7 @@ public extension SecKey {
             fatalError("\(RSAError(code: Int(status)))")
         }
         
-        return attributes as! [String: AnyObject]
+        return attributes as! [String: Any]
     }
     
     /// The data of key.
@@ -191,38 +191,65 @@ public extension SecKey {
      - parameter data: The data used to create the key.
      - parameter isPublicKey: A Boolean value indicating the key is public or private.
      
+     - throws: An `RSAError` if an error occurs.
+     
      - returns: The `SecKey` object or nil if data is incorrect.
      */
-    static public func make(from data: Data, isPublicKey: Bool) -> SecKey? {
+    static public func make(from data: Data, isPublicKey: Bool) throws -> SecKey {
     
-        let query = [
-            (kSecClass as String): kSecClassKey,
-            (kSecAttrApplicationTag as String): UUID().uuidString,
-            (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
-            (kSecAttrKeyClass as String): isPublicKey ? kSecAttrKeyClassPublic: kSecAttrKeyClassPrivate,
-            (kSecValueData as String): data,
-            (kSecReturnRef as String): true
-            ]  as CFDictionary
+        guard !data.isEmpty else {
+            throw RSAError(code: 20)
+        }
         
-        var secKey: AnyObject?
-        var status: OSStatus
+        if #available(iOS 10.0, *) {
             
-        status = SecItemDelete(query)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(code: Int(status)))")
+            let query = [
+                (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
+                (kSecAttrKeyClass as String): isPublicKey ? kSecAttrKeyClassPublic: kSecAttrKeyClassPrivate
+            ] as CFDictionary
+            
+            var error: Unmanaged<CFError>?
+            guard let secKey = SecKeyCreateWithData(data as CFData, query, &error) else {
+                throw RSAError(code: 20)
+            }
+            
+            return secKey
+
+        } else {
+            
+            let query = [
+                (kSecClass as String): kSecClassKey,
+                (kSecAttrApplicationTag as String): UUID().uuidString,
+                (kSecAttrKeyType as String): kSecAttrKeyTypeRSA,
+                (kSecAttrKeyClass as String): isPublicKey ? kSecAttrKeyClassPublic: kSecAttrKeyClassPrivate,
+                (kSecValueData as String): data,
+                (kSecReturnRef as String): true
+                ] as CFDictionary
+            
+            var secKey: AnyObject?
+            var status: OSStatus
+            
+            status = SecItemDelete(query)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                fatalError("\(RSAError(code: Int(status)))")
+            }
+            
+            status = SecItemAdd(query, &secKey)
+            guard status == errSecSuccess else {
+                fatalError("\(RSAError(code: Int(status)))")
+            }
+            
+            status = SecItemDelete(query)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                fatalError("\(RSAError(code: Int(status)))")
+            }
+            
+            guard (secKey as! SecKey?) != nil else {
+                throw RSAError(code: 20)
+            }
+            
+            return secKey as! SecKey
         }
-        
-        status = SecItemAdd(query, &secKey)
-        guard status == errSecSuccess else {
-            fatalError("\(RSAError(code: Int(status)))")
-        }
-        
-        status = SecItemDelete(query)
-        guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(code: Int(status)))")
-        }
-        
-        return secKey as! SecKey?
     }
     
     /**
@@ -231,9 +258,11 @@ public extension SecKey {
      - parameter pem: The string in PEM format.
      - parameter isPublicKey: A Boolean value indicating the key is public or private.
      
+     - throws: An `RSAError` if an error occurs.
+     
      - returns: The `SecKey` object or nil if PEM text is incorrect.
      */
-    static public func make(fromPEM pem: String, isPublicKey: Bool) -> SecKey? {
+    static public func make(fromPEM pem: String, isPublicKey: Bool) throws -> SecKey {
         
         let base64String = pem.components(separatedBy: "\n")
             .filter {!$0.hasPrefix("-----BEGIN") && !$0.hasPrefix("-----END")}
@@ -242,7 +271,7 @@ public extension SecKey {
         var data = Data(base64Encoded: base64String, options: .ignoreUnknownCharacters) ?? Data()
         
         guard !data.isEmpty else {
-            return nil
+            throw RSAError(code: 20)
         }
         
         // Remove header (generated by OpenSSL and other) if needed
@@ -314,19 +343,23 @@ public extension SecKey {
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(code: Int(status)))")
+            throw RSAError(code: Int(status))
         }
         
         status = SecItemAdd(query, &secKey)
         guard status == errSecSuccess else {
-            fatalError("\(RSAError(code: Int(status)))")
+            throw RSAError(code: Int(status))
         }
         
         status = SecItemDelete(query)
         guard status == errSecSuccess || status == errSecItemNotFound else {
-            fatalError("\(RSAError(code: Int(status)))")
+            throw RSAError(code: Int(status))
         }
         
-        return secKey as! SecKey?
+        guard (secKey as! SecKey?) != nil else {
+            throw RSAError(code: 20)
+        }
+        
+        return secKey as! SecKey
     }
 }

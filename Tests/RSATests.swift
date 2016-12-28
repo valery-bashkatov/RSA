@@ -46,42 +46,6 @@ class RSATests: XCTestCase {
         XCTAssertEqual(keyClass, Int(kSecAttrKeyClassPrivate as String))
     }
     
-    func testKeySize512() {
-        do {
-            var publicKey: SecKey
-            var privateKey: SecKey
-            
-            (publicKey, privateKey) = try RSA.generateKeyPair(withSize: 512)
-            
-            let publicKeySize = publicKey.attributes[kSecAttrKeySizeInBits as String] as? Int
-            let privateKeySize = privateKey.attributes[kSecAttrKeySizeInBits as String] as? Int
-            
-            XCTAssertEqual(publicKeySize, 512)
-            XCTAssertEqual(privateKeySize, 512)
-            
-        } catch {
-            XCTFail("Keys generation failed: \(error)")
-        }
-    }
-    
-    func testKeySize768() {
-        do {
-            var publicKey: SecKey
-            var privateKey: SecKey
-            
-            (publicKey, privateKey) = try RSA.generateKeyPair(withSize: 768)
-            
-            let publicKeySize = publicKey.attributes[kSecAttrKeySizeInBits as String] as? Int
-            let privateKeySize = privateKey.attributes[kSecAttrKeySizeInBits as String] as? Int
-            
-            XCTAssertEqual(publicKeySize, 768)
-            XCTAssertEqual(privateKeySize, 768)
-            
-        } catch {
-            XCTFail("Keys generation failed: \(error)")
-        }
-    }
-    
     func testKeySize1024() {
         do {
             var publicKey: SecKey
@@ -112,6 +76,24 @@ class RSATests: XCTestCase {
             
             XCTAssertEqual(publicKeySize, 2048)
             XCTAssertEqual(privateKeySize, 2048)
+            
+        } catch {
+            XCTFail("Keys generation failed: \(error)")
+        }
+    }
+    
+    func testKeySize4096() {
+        do {
+            var publicKey: SecKey
+            var privateKey: SecKey
+            
+            (publicKey, privateKey) = try RSA.generateKeyPair(withSize: 4096)
+            
+            let publicKeySize = publicKey.attributes[kSecAttrKeySizeInBits as String] as? Int
+            let privateKeySize = privateKey.attributes[kSecAttrKeySizeInBits as String] as? Int
+            
+            XCTAssertEqual(publicKeySize, 4096)
+            XCTAssertEqual(privateKeySize, 4096)
             
         } catch {
             XCTFail("Keys generation failed: \(error)")
@@ -210,50 +192,68 @@ class RSATests: XCTestCase {
     }
     
     func testMakePublicKeyFromData() {
-        let publicKeyFromData = SecKey.make(from: publicKey.data, isPublicKey: true)
-        
-        XCTAssertNotNil(publicKeyFromData)
-        XCTAssertEqual(publicKeyFromData?.data, publicKey.data)
+        do {
+            let publicKeyFromData = try SecKey.make(from: publicKey.data, isPublicKey: true)
+            
+            XCTAssertEqual(publicKeyFromData.data, publicKey.data)
+            
+        } catch {
+            XCTFail("Making public key from data failed: \(error)")
+        }
     }
     
     func testMakePrivateKeyFromData() {
-        let privateKeyFromData = SecKey.make(from: privateKey.data, isPublicKey: false)
+        do {
+            let privateKeyFromData = try SecKey.make(from: privateKey.data, isPublicKey: false)
         
-        XCTAssertNotNil(privateKeyFromData)
-        XCTAssertEqual(privateKeyFromData?.data, privateKey.data)
+            XCTAssertEqual(privateKeyFromData.data, privateKey.data)
+        } catch {
+            XCTFail("Making private key from data failed: \(error)")
+        }
     }
     
     func testMakePublicKeyFromPEM() {
-        let publicKeyFromPEM = SecKey.make(fromPEM: publicKey.pem, isPublicKey: true)
-        
-        XCTAssertNotNil(publicKeyFromPEM)
-        XCTAssertEqual(publicKeyFromPEM?.data, publicKey.data)
+        do {
+            let publicKeyFromPEM = try SecKey.make(fromPEM: publicKey.pem, isPublicKey: true)
+            
+            XCTAssertEqual(publicKeyFromPEM.data, publicKey.data)
+            
+        } catch {
+            XCTFail("Making public key from PEM failed: \(error)")
+        }
     }
     
     func testMakePublicKeyFromOpenSSLPEM() {
-        
-        // OpenSSL PEM format with header
-        let openSSLPEM = "-----BEGIN PUBLIC KEY-----\n" +
-            "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB/2QXG5LFwCOCtnRlVG1OD\n" +
-            "styNFJQyN4WZTY0J/NNVuj2pXnZ+EtiOERfa/XwtHLbmXRStmRN8Hoad9Xj8RGMI\n" +
-            "9xkftwKBAb58BQaYjPZzj/3ON58sbdlybqVJ+F8TjJHFTgLq6NDGJX9DmJ29PHej\n" +
-            "rBkXl/CSeDp5vK+2hSPFhNKj5XPCx4e3YIgvg0/JrnvYTvwabBsTPWZhoA5O9QkK\n" +
-            "dRYrar8tl8lWXOyH1bol7nvCnAW5E6yKnxhst2909/+lFVCkTVF9Ng3YPlSQbEaO\n" +
-            "RDzi1oxjZeuusJnYMda6IqkUf8ouPYhJIqgjzHEzqC7e393vVYI/BkQzkAPLmB/T\n" +
-            "AgMBAAE=\n" +
-        "-----END PUBLIC KEY-----"
-        
-        let publicKeyFromOpenSSLPEM = SecKey.make(fromPEM: openSSLPEM, isPublicKey: true)
-        
-        XCTAssertNotNil(publicKeyFromOpenSSLPEM)
-        XCTAssertEqual(publicKeyFromOpenSSLPEM!.pem, openSSLPEM)
+        do {
+            // OpenSSL PEM format with header
+            let openSSLPEM = "-----BEGIN PUBLIC KEY-----\n" +
+                "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB/2QXG5LFwCOCtnRlVG1OD\n" +
+                "styNFJQyN4WZTY0J/NNVuj2pXnZ+EtiOERfa/XwtHLbmXRStmRN8Hoad9Xj8RGMI\n" +
+                "9xkftwKBAb58BQaYjPZzj/3ON58sbdlybqVJ+F8TjJHFTgLq6NDGJX9DmJ29PHej\n" +
+                "rBkXl/CSeDp5vK+2hSPFhNKj5XPCx4e3YIgvg0/JrnvYTvwabBsTPWZhoA5O9QkK\n" +
+                "dRYrar8tl8lWXOyH1bol7nvCnAW5E6yKnxhst2909/+lFVCkTVF9Ng3YPlSQbEaO\n" +
+                "RDzi1oxjZeuusJnYMda6IqkUf8ouPYhJIqgjzHEzqC7e393vVYI/BkQzkAPLmB/T\n" +
+                "AgMBAAE=\n" +
+            "-----END PUBLIC KEY-----"
+            
+            let publicKeyFromOpenSSLPEM = try SecKey.make(fromPEM: openSSLPEM, isPublicKey: true)
+            
+            XCTAssertEqual(publicKeyFromOpenSSLPEM.pem, openSSLPEM)
+            
+        } catch {
+            XCTFail("Making public key from OpenSSL PEM failed: \(error)")
+        }
     }
     
     func testMakePrivateKeyFromPEM() {
-        let privateKeyFromPEM = SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
+        do {
+            let privateKeyFromPEM = try SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
         
-        XCTAssertNotNil(privateKeyFromPEM)
-        XCTAssertEqual(privateKeyFromPEM?.data, privateKey.data)
+            XCTAssertEqual(privateKeyFromPEM.data, privateKey.data)
+            
+        } catch {
+            XCTFail("Making private key from PEM failed: \(error)")
+        }
     }
     
     func testSignSHA1() {

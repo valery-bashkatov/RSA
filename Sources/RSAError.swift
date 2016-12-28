@@ -26,7 +26,8 @@ public struct RSAError: Error, CustomStringConvertible {
         Int(errSecInteractionNotAllowed): "Interaction with the Security Server is not allowed",
         Int(errSecDecode): "Unable to decode the provided data",
         /* errSecMissingEntitlement */ -34018: "Internal error when a required entitlement isn't present. Keychain entitlement required",
-        /* custom */ 10: "Invalid digest algorithm. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512"
+        /* custom */ 10: "Invalid digest algorithm. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512",
+        /* custom */ 20: "Source data is empty or has an invalid format"
     ]
     
     /// The error code.

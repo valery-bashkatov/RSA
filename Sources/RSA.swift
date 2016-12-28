@@ -24,7 +24,7 @@ public class RSA {
     /**
      Generates RSA keys with specified key size.
      
-     - parameter keySize: This value defines key size in bits. May have values of 512, 768, 1024 or 2048.
+     - parameter keySize: This value defines key size in bits.
      
      - throws: An `RSAError` if an error occurs.
      
