@@ -176,7 +176,7 @@ public extension SecKey {
             data = header + data
         }
         
-        let pem = "-----BEGIN " + (isPublicKey ? "PUBLIC " : "PRIVATE") + " KEY-----\n" +
+        let pem = "-----BEGIN " + (isPublicKey ? "PUBLIC" : "PRIVATE") + " KEY-----\n" +
             data.base64EncodedString(options: [.lineLength64Characters, .endLineWithLineFeed]) +
             "\n-----END " + (isPublicKey ? "PUBLIC" : "PRIVATE") + " KEY-----"
         

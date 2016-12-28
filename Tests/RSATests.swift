@@ -230,6 +230,25 @@ class RSATests: XCTestCase {
         XCTAssertEqual(publicKeyFromPEM?.data, publicKey.data)
     }
     
+    func testMakePublicKeyFromOpenSSLPEM() {
+        
+        // OpenSSL PEM format with header
+        let openSSLPEM = "-----BEGIN PUBLIC KEY-----\n" +
+            "MIIBITANBgkqhkiG9w0BAQEFAAOCAQ4AMIIBCQKCAQB/2QXG5LFwCOCtnRlVG1OD\n" +
+            "styNFJQyN4WZTY0J/NNVuj2pXnZ+EtiOERfa/XwtHLbmXRStmRN8Hoad9Xj8RGMI\n" +
+            "9xkftwKBAb58BQaYjPZzj/3ON58sbdlybqVJ+F8TjJHFTgLq6NDGJX9DmJ29PHej\n" +
+            "rBkXl/CSeDp5vK+2hSPFhNKj5XPCx4e3YIgvg0/JrnvYTvwabBsTPWZhoA5O9QkK\n" +
+            "dRYrar8tl8lWXOyH1bol7nvCnAW5E6yKnxhst2909/+lFVCkTVF9Ng3YPlSQbEaO\n" +
+            "RDzi1oxjZeuusJnYMda6IqkUf8ouPYhJIqgjzHEzqC7e393vVYI/BkQzkAPLmB/T\n" +
+            "AgMBAAE=\n" +
+        "-----END PUBLIC KEY-----"
+        
+        let publicKeyFromOpenSSLPEM = SecKey.make(fromPEM: openSSLPEM, isPublicKey: true)
+        
+        XCTAssertNotNil(publicKeyFromOpenSSLPEM)
+        XCTAssertEqual(publicKeyFromOpenSSLPEM!.pem, openSSLPEM)
+    }
+    
     func testMakePrivateKeyFromPEM() {
         let privateKeyFromPEM = SecKey.make(fromPEM: privateKey.pem, isPublicKey: false)
         
