@@ -48,9 +48,9 @@ let data = publicKey.data
 // Key's PEM
 let pem = publicKey.pem
 
-// Creating a key from data
+// Key creation from data
 let publicKeyFromData = try! SecKey.make(from: data, isPublicKey: true)
 
-// Creating a key from PEM
+// Key creation from PEM
 let publicKeyFromPEM = try! SecKey.make(fromPEM: pem, isPublicKey: true)
 ```
