@@ -31,26 +31,26 @@ var privateKey: SecKey
 (publicKey, privateKey) = try! RSA.generateKeyPair(withSize: 2048)
 
 // Encryption
-let encryptedData = try! RSA.encrypt(data: text.data(using: .utf8)!, using: publicKey)
+let encryptedData: Data = try! RSA.encrypt(data: text.data(using: .utf8)!, using: publicKey)
 
 // Decryption
-let decryptedData = try! RSA.decrypt(data: encryptedData, using: privateKey)
+let decryptedData: Data = try! RSA.decrypt(data: encryptedData, using: privateKey)
 
 // Signing
-let signature = try! RSA.sign(encryptedData, using: privateKey, digestAlgorithm: .PKCS1SHA1)
+let signature: Data = try! RSA.sign(encryptedData, using: privateKey, digestAlgorithm: .PKCS1SHA1)
 
 // Verification
-let verificationResult = try! RSA.verify(encryptedData, using: publicKey, digestAlgorithm: .PKCS1SHA1, signature: signature)
+let verificationResult: Bool = try! RSA.verify(encryptedData, using: publicKey, digestAlgorithm: .PKCS1SHA1, signature: signature)
 
 // Key's data
-let data = publicKey.data
+let data: Data = publicKey.data
 
 // Key's PEM
-let pem = publicKey.pem
+let pem: String = publicKey.pem
 
 // Key creation from data
-let publicKeyFromData = try! SecKey.make(from: data, isPublicKey: true)
+let publicKeyFromData: SecKey = try! SecKey.make(from: data, isPublicKey: true)
 
 // Key creation from PEM
-let publicKeyFromPEM = try! SecKey.make(fromPEM: pem, isPublicKey: true)
+let publicKeyFromPEM: SecKey = try! SecKey.make(fromPEM: pem, isPublicKey: true)
 ```
