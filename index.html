@@ -91,6 +91,42 @@
 <a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
 
 <p>API Reference is located at <a href="http://valery-bashkatov.github.io/RSA">http://valery-bashkatov.github.io/RSA</a>.</p>
+<a href='#sample' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='sample'>Sample</h2>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Security</span>
+<span class="kd">import</span> <span class="kt">RSA</span>
+
+<span class="k">let</span> <span class="nv">text</span> <span class="o">=</span> <span class="s">"Lorem ipsum dolor sit amet..."</span>
+
+<span class="k">var</span> <span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span>
+<span class="k">var</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span>
+
+<span class="c1">// Key pair generation</span>
+<span class="p">(</span><span class="n">publicKey</span><span class="p">,</span> <span class="n">privateKey</span><span class="p">)</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">RSA</span><span class="o">.</span><span class="nf">generateKeyPair</span><span class="p">(</span><span class="nv">withSize</span><span class="p">:</span> <span class="mi">2048</span><span class="p">)</span>
+
+<span class="c1">// Encryption</span>
+<span class="k">let</span> <span class="nv">encryptedData</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">RSA</span><span class="o">.</span><span class="nf">encrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">text</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span><span class="p">,</span> <span class="nv">using</span><span class="p">:</span> <span class="n">publicKey</span><span class="p">)</span>
+
+<span class="c1">// Decryption</span>
+<span class="k">let</span> <span class="nv">decryptedData</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">RSA</span><span class="o">.</span><span class="nf">decrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">encryptedData</span><span class="p">,</span> <span class="nv">using</span><span class="p">:</span> <span class="n">privateKey</span><span class="p">)</span>
+
+<span class="c1">// Signing</span>
+<span class="k">let</span> <span class="nv">signature</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">RSA</span><span class="o">.</span><span class="nf">sign</span><span class="p">(</span><span class="n">encryptedData</span><span class="p">,</span> <span class="nv">using</span><span class="p">:</span> <span class="n">privateKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="o">.</span><span class="kt">PKCS1SHA1</span><span class="p">)</span>
+
+<span class="c1">// Verification</span>
+<span class="k">let</span> <span class="nv">verificationResult</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">RSA</span><span class="o">.</span><span class="nf">verify</span><span class="p">(</span><span class="n">encryptedData</span><span class="p">,</span> <span class="nv">using</span><span class="p">:</span> <span class="n">publicKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="o">.</span><span class="kt">PKCS1SHA1</span><span class="p">,</span> <span class="nv">signature</span><span class="p">:</span> <span class="n">signature</span><span class="p">)</span>
+
+<span class="c1">// Key's data</span>
+<span class="k">let</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span> <span class="o">=</span> <span class="n">publicKey</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1">// Key's PEM</span>
+<span class="k">let</span> <span class="nv">pem</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">publicKey</span><span class="o">.</span><span class="n">pem</span>
+
+<span class="c1">// Key creation from data</span>
+<span class="k">let</span> <span class="nv">publicKeyFromData</span><span class="p">:</span> <span class="kt">SecKey</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">SecKey</span><span class="o">.</span><span class="nf">make</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+
+<span class="c1">// Key creation from PEM</span>
+<span class="k">let</span> <span class="nv">publicKeyFromPEM</span><span class="p">:</span> <span class="kt">SecKey</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">SecKey</span><span class="o">.</span><span class="nf">make</span><span class="p">(</span><span class="nv">fromPEM</span><span class="p">:</span> <span class="n">pem</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+</code></pre>
 
           </div>
         </section>
@@ -99,7 +135,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2016-12-28)</p>
+      <p>&copy; 2016 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2016-12-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
