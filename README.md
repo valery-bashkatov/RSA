@@ -19,6 +19,9 @@ API Reference is located at [http://valery-bashkatov.github.io/RSA](http://valer
 
 ## Sample
 ```swift
+import Security
+import RSA
+
 let text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 
 var publicKey: SecKey
