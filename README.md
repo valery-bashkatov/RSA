@@ -17,7 +17,7 @@ And then follow the [instructions](https://github.com/Carthage/Carthage#if-youre
 ## Documentation
 API Reference is located at [http://valery-bashkatov.github.io/RSA](http://valery-bashkatov.github.io/RSA).
 
-## Sample
+## Usage
 ```swift
 import Security
 import RSA
