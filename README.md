@@ -3,14 +3,14 @@ Library provides a set of tools for working with RSA cryptographic algorithm.
 
 ## Requirements
 - iOS 9.0+
-- Swift 3.0+
+- Swift 4.1+
 
 ## Installation
 ### Carthage
 To integrate `RSA` into your project using [Carthage](https://github.com/Carthage/Carthage), specify it in your `RSA`:
 
 ```
-github "valery-bashkatov/RSA" ~> 1.0.0
+github "valery-bashkatov/RSA" ~> 2.0.0
 ```
 And then follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) to install the framework.
 
