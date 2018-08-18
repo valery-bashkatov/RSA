@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           RSA Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -58,7 +67,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Structs.html">Structs</a>
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RSAError.html">RSAError</a>
@@ -74,7 +83,7 @@
             <h1>RSA</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RSA</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">RSA</span></code></pre>
 
                 </div>
               </div>
@@ -97,9 +106,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC3RSA3RSA15generateKeyPairFzT8withSizeSi_T9publicKeyCSo6SecKey10privateKeyS1__"></a>
+                    <a name="/s:3RSAAAC15generateKeyPairSo03SecC0C06publicC0_AE07privateC0tSi8withSize_tKFZ"></a>
                     <a name="//apple_ref/swift/Method/generateKeyPair(withSize:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC3RSA3RSA15generateKeyPairFzT8withSizeSi_T9publicKeyCSo6SecKey10privateKeyS1__">generateKeyPair(withSize:)</a>
+                    <a class="token" href="#/s:3RSAAAC15generateKeyPairSo03SecC0C06publicC0_AE07privateC0tSi8withSize_tKFZ">generateKeyPair(withSize:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -108,7 +117,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Generates RSA keys with specified key size.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -120,7 +128,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">generateKeyPair</span><span class="p">(</span><span class="n">withSize</span> <span class="nv">keySize</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">generateKeyPair</span><span class="p">(</span><span class="n">withSize</span> <span class="nv">keySize</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -137,7 +145,6 @@
                               <td>
                                 <div>
                                   <p>This value defines key size in bits.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -147,7 +154,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>A tuple with public and private key.</p>
-
                       </div>
                     </section>
                   </div>
@@ -166,9 +172,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC3RSA3RSA7encryptFzT4dataV10Foundation4Data5usingCSo6SecKey7paddingVSC10SecPadding_S2_"></a>
+                    <a name="/s:3RSAAAC7encrypt10Foundation4DataVAF4data_So6SecKeyC5usingSC0F7PaddingV7paddingtKFZ"></a>
                     <a name="//apple_ref/swift/Method/encrypt(data:using:padding:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC3RSA3RSA7encryptFzT4dataV10Foundation4Data5usingCSo6SecKey7paddingVSC10SecPadding_S2_">encrypt(data:using:padding:)</a>
+                    <a class="token" href="#/s:3RSAAAC7encrypt10Foundation4DataVAF4data_So6SecKeyC5usingSC0F7PaddingV7paddingtKFZ">encrypt(data:using:padding:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -177,7 +183,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Encrypts data.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -189,7 +194,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">encrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">padding</span><span class="p">:</span> <span class="kt">SecPadding</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PKCS1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">encrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">padding</span><span class="p">:</span> <span class="kt">SecPadding</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PKCS1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
@@ -206,7 +211,6 @@
                               <td>
                                 <div>
                                   <p>The data to be encrypted.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -219,7 +223,6 @@
                               <td>
                                 <div>
                                   <p>The public key with which to encrypt the data.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -232,7 +235,6 @@
                               <td>
                                 <div>
                                   <p>The type of padding to use. Default is PKCS1.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -242,7 +244,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The encrypted data.</p>
-
                       </div>
                     </section>
                   </div>
@@ -250,9 +251,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC3RSA3RSA7decryptFzT4dataV10Foundation4Data5usingCSo6SecKey7paddingVSC10SecPadding_S2_"></a>
+                    <a name="/s:3RSAAAC7decrypt10Foundation4DataVAF4data_So6SecKeyC5usingSC0F7PaddingV7paddingtKFZ"></a>
                     <a name="//apple_ref/swift/Method/decrypt(data:using:padding:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC3RSA3RSA7decryptFzT4dataV10Foundation4Data5usingCSo6SecKey7paddingVSC10SecPadding_S2_">decrypt(data:using:padding:)</a>
+                    <a class="token" href="#/s:3RSAAAC7decrypt10Foundation4DataVAF4data_So6SecKeyC5usingSC0F7PaddingV7paddingtKFZ">decrypt(data:using:padding:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -261,7 +262,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Decrypts data.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -273,7 +273,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">decrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">padding</span><span class="p">:</span> <span class="kt">SecPadding</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PKCS1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">decrypt</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">padding</span><span class="p">:</span> <span class="kt">SecPadding</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PKCS1</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
@@ -290,7 +290,6 @@
                               <td>
                                 <div>
                                   <p>The data to be decrypted.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -303,7 +302,6 @@
                               <td>
                                 <div>
                                   <p>The private key with which to decrypt the data.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -316,7 +314,6 @@
                               <td>
                                 <div>
                                   <p>The type of padding to use. Default is PKCS1.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -326,7 +323,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The encrypted data.</p>
-
                       </div>
                     </section>
                   </div>
@@ -345,9 +341,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC3RSA3RSA4signFzTV10Foundation4Data5usingCSo6SecKey15digestAlgorithmVSC10SecPadding_S2_"></a>
+                    <a name="/s:3RSAAAC4sign10Foundation4DataVAF_So6SecKeyC5usingSC0E7PaddingV15digestAlgorithmtKFZ"></a>
                     <a name="//apple_ref/swift/Method/sign(_:using:digestAlgorithm:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC3RSA3RSA4signFzTV10Foundation4Data5usingCSo6SecKey15digestAlgorithmVSC10SecPadding_S2_">sign(_:using:digestAlgorithm:)</a>
+                    <a class="token" href="#/s:3RSAAAC4sign10Foundation4DataVAF_So6SecKeyC5usingSC0E7PaddingV15digestAlgorithmtKFZ">sign(_:using:digestAlgorithm:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -356,7 +352,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Signs a data (digest) using private key and returns a digital signature. The data will be hashed using specified digest algorithm and then signed with private key.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -368,7 +363,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">sign</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="kt">SecPadding</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">sign</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">privateKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="kt">SecPadding</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
@@ -385,7 +380,6 @@
                               <td>
                                 <div>
                                   <p>The data to be signed.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -398,7 +392,6 @@
                               <td>
                                 <div>
                                   <p>The private key with which to sign the data.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -411,7 +404,6 @@
                               <td>
                                 <div>
                                   <p>The digest algorithm. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -421,7 +413,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The digital signature of data.</p>
-
                       </div>
                     </section>
                   </div>
@@ -429,9 +420,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC3RSA3RSA6verifyFzTV10Foundation4Data5usingCSo6SecKey15digestAlgorithmVSC10SecPadding9signatureS2__Sb"></a>
+                    <a name="/s:3RSAAAC6verifySb10Foundation4DataV_So6SecKeyC5usingSC0E7PaddingV15digestAlgorithmAF9signaturetKFZ"></a>
                     <a name="//apple_ref/swift/Method/verify(_:using:digestAlgorithm:signature:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC3RSA3RSA6verifyFzTV10Foundation4Data5usingCSo6SecKey15digestAlgorithmVSC10SecPadding9signatureS2__Sb">verify(_:using:digestAlgorithm:signature:)</a>
+                    <a class="token" href="#/s:3RSAAAC6verifySb10Foundation4DataV_So6SecKeyC5usingSC0E7PaddingV15digestAlgorithmAF9signaturetKFZ">verify(_:using:digestAlgorithm:signature:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -440,7 +431,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Verifies a data (digest) using public key and digital signature. The data will be hashed using specified digest algorithm, and then digest will be verified with public key and signature.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -452,7 +442,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">verify</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="kt">SecPadding</span><span class="p">,</span> <span class="nv">signature</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verify</span><span class="p">(</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="n">using</span> <span class="nv">publicKey</span><span class="p">:</span> <span class="kt">SecKey</span><span class="p">,</span> <span class="nv">digestAlgorithm</span><span class="p">:</span> <span class="kt">SecPadding</span><span class="p">,</span> <span class="nv">signature</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -469,7 +459,6 @@
                               <td>
                                 <div>
                                   <p>The data for which the signature is being verified</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -482,7 +471,6 @@
                               <td>
                                 <div>
                                   <p>The public key with which to verify the data.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -495,7 +483,6 @@
                               <td>
                                 <div>
                                   <p>The digest algorithm, which is used to produce a data digest for verifying. Available values: PKCS1SHA1, PKCS1SHA224, PKCS1SHA256, PKCS1SHA384 or PKCS1SHA512.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -508,7 +495,6 @@
                               <td>
                                 <div>
                                   <p>The digital signature to be verified.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -518,7 +504,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>Result of data verification.</p>
-
                       </div>
                     </section>
                   </div>
@@ -531,8 +516,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2017-01-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2018 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2018-08-18)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

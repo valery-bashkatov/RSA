@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           RSA Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -58,7 +67,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a class="nav-group-name-link" href="../Structs.html">Structs</a>
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/RSAError.html">RSAError</a>
@@ -74,7 +83,7 @@
             <h1>SecKey</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">SecKey</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SecKey</span> <span class="p">:</span> <span class="n">_CFObject</span></code></pre>
 
                 </div>
               </div>
@@ -96,9 +105,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vE3RSACSo6SecKey10attributesGVs10DictionarySSP__"></a>
+                    <a name="/s:So6SecKeyC3RSAE10attributess10DictionaryVySSypGvp"></a>
                     <a name="//apple_ref/swift/Property/attributes" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vE3RSACSo6SecKey10attributesGVs10DictionarySSP__">attributes</a>
+                    <a class="token" href="#/s:So6SecKeyC3RSAE10attributess10DictionaryVySSypGvp">attributes</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -116,7 +125,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -126,9 +135,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vE3RSACSo6SecKey4dataV10Foundation4Data"></a>
+                    <a name="/s:So6SecKeyC3RSAE4data10Foundation4DataVvp"></a>
                     <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vE3RSACSo6SecKey4dataV10Foundation4Data">data</a>
+                    <a class="token" href="#/s:So6SecKeyC3RSAE4data10Foundation4DataVvp">data</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -143,7 +152,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -153,9 +162,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vE3RSACSo6SecKey3pemSS"></a>
+                    <a name="/s:So6SecKeyC3RSAE3pemSSvp"></a>
                     <a name="//apple_ref/swift/Property/pem" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vE3RSACSo6SecKey3pemSS">pem</a>
+                    <a class="token" href="#/s:So6SecKeyC3RSAE3pemSSvp">pem</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -170,7 +179,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">pem</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">pem</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -191,9 +200,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFE3RSACSo6SecKey4makeFzT4fromV10Foundation4Data11isPublicKeySb_S0_"></a>
+                    <a name="/s:So6SecKeyC3RSAE4makeAB10Foundation4DataV4from_Sb08isPublicB0tKFZ"></a>
                     <a name="//apple_ref/swift/Method/make(from:isPublicKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFE3RSACSo6SecKey4makeFzT4fromV10Foundation4Data11isPublicKeySb_S0_">make(from:isPublicKey:)</a>
+                    <a class="token" href="#/s:So6SecKeyC3RSAE4makeAB10Foundation4DataV4from_Sb08isPublicB0tKFZ">make(from:isPublicKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -202,7 +211,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates <code>SecKey</code> from data.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -214,7 +222,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">make</span><span class="p">(</span><span class="n">from</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">SecKey</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">make</span><span class="p">(</span><span class="n">from</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">SecKey</span></code></pre>
 
                         </div>
                       </div>
@@ -231,7 +239,6 @@
                               <td>
                                 <div>
                                   <p>The data used to create the key.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -244,7 +251,6 @@
                               <td>
                                 <div>
                                   <p>A Boolean value indicating the key is public or private.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -254,7 +260,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The <code>SecKey</code> object or nil if data is incorrect.</p>
-
                       </div>
                     </section>
                   </div>
@@ -262,9 +267,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFE3RSACSo6SecKey4makeFzT7fromPEMSS11isPublicKeySb_S0_"></a>
+                    <a name="/s:So6SecKeyC3RSAE4makeABSS7fromPEM_Sb08isPublicB0tKFZ"></a>
                     <a name="//apple_ref/swift/Method/make(fromPEM:isPublicKey:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFE3RSACSo6SecKey4makeFzT7fromPEMSS11isPublicKeySb_S0_">make(fromPEM:isPublicKey:)</a>
+                    <a class="token" href="#/s:So6SecKeyC3RSAE4makeABSS7fromPEM_Sb08isPublicB0tKFZ">make(fromPEM:isPublicKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -273,7 +278,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Creates <code>SecKey</code> from PEM text. The method also trims header data (generated by OpenSSL and others) from PEM if needed.</p>
-
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <p>An <code><a href="../Structs/RSAError.html">RSAError</a></code> if an error occurs.</p>
@@ -285,7 +289,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">make</span><span class="p">(</span><span class="n">fromPEM</span> <span class="nv">pem</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">SecKey</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">make</span><span class="p">(</span><span class="n">fromPEM</span> <span class="nv">pem</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">isPublicKey</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">SecKey</span></code></pre>
 
                         </div>
                       </div>
@@ -302,7 +306,6 @@
                               <td>
                                 <div>
                                   <p>The string in PEM format.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -315,7 +318,6 @@
                               <td>
                                 <div>
                                   <p>A Boolean value indicating the key is public or private.</p>
-
                                 </div>
                               </td>
                             </tr>
@@ -325,7 +327,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>The <code>SecKey</code> object or nil if PEM text is incorrect.</p>
-
                       </div>
                     </section>
                   </div>
@@ -338,8 +339,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2017-01-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2018 <a class="link" href="http://valery.bashkatov.org" target="_blank" rel="external">Valery Bashkatov</a>. All rights reserved. (Last updated: 2018-08-18)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
